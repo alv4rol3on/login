@@ -34,7 +34,7 @@ class UserRegisterView(FormView):
         #enviar el codigo al email del user
         asunto = 'Confirmacion de email'
         mensaje = 'El codigo de verificacion es: '+ codigo
-        email_remitente = 'alv4rol3on@gmail.com'
+        email_remitente = 'no-reply@example.com'
         send_mail(asunto, mensaje, email_remitente, [form.cleaned_data['email'],])
         #redirigir a pantalla de validacion
         return HttpResponseRedirect(
