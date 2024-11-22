@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import SetPasswordForm
 from .models import User
 
 class LoginForm(forms.Form):
@@ -113,3 +114,51 @@ class VerificationForm(forms.Form):
                raise forms.ValidationError('Codigo incorrecto') 
         else:
             raise forms.ValidationError('Codigo invalido')
+        
+# Formulario para solicitar la recuperación de contraseña
+class PasswordRecoveryForm(forms.Form):
+    email = forms.EmailField(
+        label='Correo electrónico',
+        max_length=254,
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese su correo electrónico'})
+    )
+
+# Formulario para establecer una nueva contraseña
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='Nueva contraseña',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña'})
+    )
+    new_password2 = forms.CharField(
+        label='Confirmar nueva contraseña',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirme la nueva contraseña'})
+    )
+
+# La vista de recuperación y restablecimiento ya se encuentra en la definición anterior.
+class RequestPasswordResetForm(forms.Form):
+    username = forms.CharField(
+        max_length=10,
+        label="Nombre de usuario",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de usuario'})
+    )
+    
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(
+        label="Nueva contraseña",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Nueva contraseña'})
+    )
+    confirm_password = forms.CharField(
+        label="Confirmar contraseña",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña'})
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if new_password != confirm_password:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+        return cleaned_data
+
