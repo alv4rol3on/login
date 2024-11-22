@@ -1,16 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Iniciar Sesión</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            text-align: center;
+            display: block;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-buttons button {
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .facebook {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .facebook:hover {
+            background-color: #365492;
+        }
+
+        .google {
+            background-color: #db4437;
+            color: white;
+        }
+
+        .google:hover {
+            background-color: #c1351d;
+        }
+
+        .social-buttons i {
+            margin-right: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <h1>Inicia sesión</h1>
-    <form method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Acceder</button><hr>
-        <a href="{% url 'users_app:user-register' %}">No tienes una cuenta? registrate</a>
-    </form>
+    <div class="container">
+        <h1>Inicia sesión</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Acceder</button>
+            <a href="{% url 'users_app:request-reset-password' %}">¿Te olvidaste tu contraseña? click aqui</a>
+            <hr>
+            <a href="{% url 'users_app:user-register' %}">¿No tienes una cuenta? Regístrate</a>
+        
+        </form>
+        
+        <div class="social-buttons">
+            <button class="facebook">
+                <i class="material-icons">facebook</i> Iniciar sesión con Facebook
+            </button>
+            <button class="google">
+                <i class="material-icons">google</i> Iniciar sesión con Google
+            </button>
+        </div>
+    </div>
 </body>
 </html>
